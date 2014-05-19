@@ -7,7 +7,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
 import fr.letzner.graphics.actors.Camera;
-import fr.letzner.graphics.utils.PaysageConstants;
+import fr.letzner.graphics.utils.GameConstants;
 
 /**
  * @author stefan
@@ -103,12 +103,12 @@ public class CameraManager {
 		
 		if (avance) {
 			// Le joueur avance
-			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle()) + PaysageConstants.VITESSE);
-			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle()) + PaysageConstants.VITESSE);
+			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle()) + GameConstants.VITESSE);
+			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle()) + GameConstants.VITESSE);
 		} else {
 			// Le joueur recule
-			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle()) + PaysageConstants.VITESSE);
-			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle()) + PaysageConstants.VITESSE);
+			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle()) + GameConstants.VITESSE);
+			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle()) + GameConstants.VITESSE);
 		}
 		
 		// Mise a jour de la camera et du joueur
@@ -129,10 +129,10 @@ public class CameraManager {
 		
 		if (monte) {
 			// Le joueur avance
-			y = PlayerManager.getInstance().getPlayer().getY() + PaysageConstants.VITESSE;
+			y = PlayerManager.getInstance().getPlayer().getY() + GameConstants.VITESSE;
 		} else {
 			// Le joueur recule
-			y = PlayerManager.getInstance().getPlayer().getY() - PaysageConstants.VITESSE;
+			y = PlayerManager.getInstance().getPlayer().getY() - GameConstants.VITESSE;
 		}
 		
 		// Mise a jour de la camera et du joueur

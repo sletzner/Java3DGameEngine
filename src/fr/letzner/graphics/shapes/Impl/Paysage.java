@@ -11,6 +11,7 @@ import fr.letzner.graphics.images.ImageManager;
 import fr.letzner.graphics.images.ImageManagerException;
 import fr.letzner.graphics.shapes.Model3D;
 import fr.letzner.graphics.utils.ColorManager;
+import fr.letzner.graphics.utils.GameConstants;
 
 /**
  * @author stefan
@@ -23,18 +24,11 @@ public class Paysage implements Model3D {
 	private int nbPoints = 0;
 	private float[][] tableauAltitudes;
 	private ColorManager colorManager = new ColorManager();
-
-	/**
-	 * Largeur d'un carré
-	 */
-	private float largeurCarre = 0.1f;
 	
 	/**
 	 * Hauteur maxi
 	 */
 	private float hauteurCarre = 0.1f;
-
-	
 
 	/**
 	 * 
@@ -80,7 +74,7 @@ public class Paysage implements Model3D {
 		float x1, x2, x3, x4, x5, x6 = 0.0f;
 		float y1, y2, y3, y4, y5, y6 = 0.0f;
 		float z1, z2, z3, z4, z5, z6 = 0.0f;
-
+		
 		// Construction des facettes
 		for (int x = 0; x < imageService.getDimension().width - 1; x++) {
 			for (int z = 0; z < imageService.getDimension().height - 1; z++) {
@@ -93,31 +87,29 @@ public class Paysage implements Model3D {
 				float valeur2 = getValeurAltitude(couleurs[indiceTableau2]);
 				float valeur3 = getValeurAltitude(couleurs[indiceTableau3]);
 				
-				terrain.glColor3i(colorManager.getColorFromLUT((int)valeur1).getRed(),
-						colorManager.getColorFromLUT((int)valeur1).getGreen(),
-						colorManager.getColorFromLUT((int)valeur1).getBlue());
-				x1 = (x - decalX) * largeurCarre;
-				y1 = valeur1;
-				z1 = (z - decalZ) * largeurCarre;
+				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur1).getRed(),
+						(byte)colorManager.getColorFromLUT((int)valeur1).getGreen(),
+						(byte)colorManager.getColorFromLUT((int)valeur1).getBlue());
+				x1 = (x - decalX) * GameConstants.LARGEUR_CARRE;
+				y1 = valeur1 / GameConstants.COEFFICIENT_REDUCTEUR;
+				z1 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glNormal3f(0.0f, 1.0f, 0.0f);
 				terrain.glVertex3f(x1, y1, z1);
 
-				//System.out.println("X=" + (x - decalX) * largeurCarre + ", Y=" + valeur1 + ", Z=" + (z - decalZ) * largeurCarre);
-				
-				terrain.glColor3i(colorManager.getColorFromLUT((int)valeur2).getRed(),
-						colorManager.getColorFromLUT((int)valeur2).getGreen(),
-						colorManager.getColorFromLUT((int)valeur2).getBlue());
-				x2 = (x - decalX) * largeurCarre;
-				y2 = valeur2;
-				z2 = (z + 1 - decalZ) * largeurCarre;
+				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur2).getRed(),
+						(byte)colorManager.getColorFromLUT((int)valeur2).getGreen(),
+						(byte)colorManager.getColorFromLUT((int)valeur2).getBlue());
+				x2 = (x - decalX) * GameConstants.LARGEUR_CARRE;
+				y2 = valeur2 / GameConstants.COEFFICIENT_REDUCTEUR;
+				z2 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x2, y2, z2);
 
-				terrain.glColor3i(colorManager.getColorFromLUT((int)valeur3).getRed(),
-						colorManager.getColorFromLUT((int)valeur3).getGreen(),
-						colorManager.getColorFromLUT((int)valeur3).getBlue());
-				x3 = (x + 1 - decalX) * largeurCarre;
-				y3 = valeur3;
-				z3 = (z + 1 - decalZ) * largeurCarre;
+				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur3).getRed(),
+						(byte)colorManager.getColorFromLUT((int)valeur3).getGreen(),
+						(byte)colorManager.getColorFromLUT((int)valeur3).getBlue());
+				x3 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
+				y3 = valeur3 / GameConstants.COEFFICIENT_REDUCTEUR;
+				z3 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x3, y3, z3);
 
 				// Triangle 2
@@ -129,38 +121,35 @@ public class Paysage implements Model3D {
 				float valeur5 = getValeurAltitude(couleurs[indiceTableau5]);
 				float valeur6 = getValeurAltitude(couleurs[indiceTableau6]);
 
-				terrain.glColor3i(colorManager.getColorFromLUT((int)valeur4).getRed(),
-						colorManager.getColorFromLUT((int)valeur4).getGreen(),
-						colorManager.getColorFromLUT((int)valeur4).getBlue());
+				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur4).getRed(),
+						(byte)colorManager.getColorFromLUT((int)valeur4).getGreen(),
+						(byte)colorManager.getColorFromLUT((int)valeur4).getBlue());
 				terrain.glNormal3f(0.0f, 1.0f, 0.0f);
-				x4 = (x - decalX) * largeurCarre;
-				y4 = valeur4;
-				z4 = (z - decalZ) * largeurCarre;
+				x4 = (x - decalX) * GameConstants.LARGEUR_CARRE;
+				y4 = valeur4 / GameConstants.COEFFICIENT_REDUCTEUR;
+				z4 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x4, y4, z4);
 
-				terrain.glColor3i(colorManager.getColorFromLUT((int)valeur5).getRed(),
-						colorManager.getColorFromLUT((int)valeur5).getGreen(),
-						colorManager.getColorFromLUT((int)valeur5).getBlue());
-				x5 = (x + 1 - decalX) * largeurCarre;
-				y5 = valeur5;
-				z5 = (z + 1 - decalZ) * largeurCarre;
+				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur5).getRed(),
+						(byte)colorManager.getColorFromLUT((int)valeur5).getGreen(),
+						(byte)colorManager.getColorFromLUT((int)valeur5).getBlue());
+				x5 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
+				y5 = valeur5 / GameConstants.COEFFICIENT_REDUCTEUR;
+				z5 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x5, y5, z5);
 
-				terrain.glColor3i(colorManager.getColorFromLUT((int)valeur6).getRed(),
-						colorManager.getColorFromLUT((int)valeur6).getGreen(),
-						colorManager.getColorFromLUT((int)valeur6).getBlue());
-				x6 = (x + 1 - decalX) * largeurCarre;
-				y6 = valeur6;
-				z6 = (z - decalZ) * largeurCarre;
+				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur6).getRed(),
+						(byte)colorManager.getColorFromLUT((int)valeur6).getGreen(),
+						(byte)colorManager.getColorFromLUT((int)valeur6).getBlue());
+				x6 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
+				y6 = valeur6 / GameConstants.COEFFICIENT_REDUCTEUR;
+				z6 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x6, y6, z6);
 				
-//				System.out.println("Traingle A -> X1=" + x1 + ", Y1=" + y1 + ", Z1=" + z1 + " - X2=" + x2 + ", Y2=" + y2 + ", Z2=" + z2 + " - X3=" + x3 + ", Y3=" + y3 + ", Z3=" + z3);
-//				System.out.println("Traingle B -> X4=" + x4 + ", Y4=" + y4 + ", Z4=" + z4 + " - X5=" + x5 + ", Y5=" + y5 + ", Z5=" + z5 + " - X6=" + x6 + ", Y6=" + y6 + ", Z6=" + z6);
-				
-				tableauAltitudes[x][z] = valeur1;
+				// On memorise l'altitude du point courrant
+				tableauAltitudes[x][z] = valeur1 / GameConstants.COEFFICIENT_REDUCTEUR;
 			}
 		}
-
 		terrain.glEnd();
 	}
 
@@ -172,14 +161,14 @@ public class Paysage implements Model3D {
 	 */
 	private float getValeurAltitude(int couleur) {
 		// Transforme les millions de couleurs en 256 puis 1.0f
-		float valeur = //(256.0f /* Inversion des valeurs */
+		float valeur = 256.0f - /* Inversion des valeurs */
 		(Float.valueOf(Math.abs(couleur)) / 256.0f / 256.0f); /*
 																 * Passage de
 																 * millions de
 																 * couleurs en
 																 * 256 NG
 																 */
-		valeur = valeur * hauteurCarre; /* Echelle du modele 3D */
+		//valeur = valeur * hauteurCarre; /* Echelle du modele 3D */
 
 		return valeur;
 	}

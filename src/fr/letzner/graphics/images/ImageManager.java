@@ -26,7 +26,7 @@ public class ImageManager {
 	 */
 	private void loadImage(String path) throws ImageManagerException {
 		try {
-			System.out.print("Chargment de l'image " + path + " : ");
+			System.out.print("Chargement de l'image " + path + " : ");
 			image = ImageIO.read(new File(path));
 			
 			// Parametrage du service

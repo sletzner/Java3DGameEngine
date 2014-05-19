@@ -17,6 +17,7 @@ import javax.media.opengl.GL2GL3;
 import com.jogamp.opengl.util.texture.Texture;
 
 import fr.letzner.graphics.shapes.Model3D;
+import fr.letzner.graphics.utils.GameConstants;
 import fr.letzner.graphics.utils.RandomCoordonnees;
 // GL2 constants
 
@@ -32,7 +33,6 @@ public class Arbre implements Model3D {
 	/**
 	 * Largeur d'un carré
 	 */
-	private float largeurCarre = 0.1f;
 	private int nbTypeArbres = 4;
 	private int nbArbres = 0;
 	
@@ -130,22 +130,22 @@ public class Arbre implements Model3D {
 	        
 	        // Dessin des deux faces avec textures
 	        gl.glTexCoord2d(1.0, 0.0);
-	        gl.glVertex3f((x * largeurCarre) + (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, z * largeurCarre);
+	        gl.glVertex3f((x * GameConstants.LARGEUR_CARRE) + (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, z * GameConstants.LARGEUR_CARRE);
 	        gl.glTexCoord2d(0.0, 0.0);
-	        gl.glVertex3f((x * largeurCarre) - (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, z * largeurCarre);
+	        gl.glVertex3f((x * GameConstants.LARGEUR_CARRE) - (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, z * GameConstants.LARGEUR_CARRE);
 	        gl.glTexCoord2d(0.0, 1.0);
-	        gl.glVertex3f((x * largeurCarre) - (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()], z * largeurCarre);
+	        gl.glVertex3f((x * GameConstants.LARGEUR_CARRE) - (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()], z * GameConstants.LARGEUR_CARRE);
 	        gl.glTexCoord2d(1.0, 1.0);
-	        gl.glVertex3f((x * largeurCarre) + (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()], z * largeurCarre);
+	        gl.glVertex3f((x * GameConstants.LARGEUR_CARRE) + (largeurArbre / 2.0f), tableauNiveaux[ran.getX()][ran.getY()], z * GameConstants.LARGEUR_CARRE);
 	        
 	        gl.glTexCoord2d(1.0, 0.0);
-	        gl.glVertex3f(x * largeurCarre, tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, (z * largeurCarre) + (largeurArbre / 2.0f));
+	        gl.glVertex3f(x * GameConstants.LARGEUR_CARRE, tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, (z * GameConstants.LARGEUR_CARRE) + (largeurArbre / 2.0f));
 	        gl.glTexCoord2d(0.0, 0.0);
-	        gl.glVertex3f(x * largeurCarre, tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, (z * largeurCarre) - (largeurArbre / 2.0f));
+	        gl.glVertex3f(x * GameConstants.LARGEUR_CARRE, tableauNiveaux[ran.getX()][ran.getY()] + hauteurArbre, (z * GameConstants.LARGEUR_CARRE) - (largeurArbre / 2.0f));
 	        gl.glTexCoord2d(0.0, 1.0);
-	        gl.glVertex3f(x * largeurCarre, tableauNiveaux[ran.getX()][ran.getY()], (z * largeurCarre) - (largeurArbre / 2.0f));
+	        gl.glVertex3f(x * GameConstants.LARGEUR_CARRE, tableauNiveaux[ran.getX()][ran.getY()], (z * GameConstants.LARGEUR_CARRE) - (largeurArbre / 2.0f));
 	        gl.glTexCoord2d(1.0, 1.0);
-	        gl.glVertex3f(x * largeurCarre, tableauNiveaux[ran.getX()][ran.getY()], (z * largeurCarre) + (largeurArbre / 2.0f));
+	        gl.glVertex3f(x * GameConstants.LARGEUR_CARRE, tableauNiveaux[ran.getX()][ran.getY()], (z * GameConstants.LARGEUR_CARRE) + (largeurArbre / 2.0f));
 	        
 			
 			

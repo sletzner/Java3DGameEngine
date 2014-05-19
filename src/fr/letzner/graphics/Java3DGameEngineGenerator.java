@@ -17,18 +17,14 @@ import com.jogamp.opengl.util.FPSAnimator;
 import fr.letzner.graphics.listener.KeyboardController;
 import fr.letzner.graphics.listener.MouseController;
 import fr.letzner.graphics.listener.MouseMotionController;
-import fr.letzner.graphics.listener.Paysage3DEventListener;
+import fr.letzner.graphics.listener.Java3DGameEngineEventListener;
 import fr.letzner.graphics.shapes.Impl.Arbre;
 import fr.letzner.graphics.shapes.Impl.Paysage;
 import fr.letzner.graphics.shapes.Impl.ShapeManager;
-import fr.letzner.graphics.utils.ColorManager;
-import fr.letzner.graphics.utils.PaysageConstants;
+import fr.letzner.graphics.utils.GameConstants;
 
 public class Java3DGameEngineGenerator extends GLCanvas {
 	private static final long serialVersionUID = 1L;
-	
-	//private static Paysage paysage = null;
-	//private static Arbre arbre = null;
 	
 	private static GLCanvas canvas = null;
 	private static GLU glu; // for the GL Utility
@@ -46,17 +42,17 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 				glp = GLProfile.getDefault();
 				
 				// Initialisation des models 3D
-				ShapeManager.getInstance().setPaysage(new Paysage(PaysageConstants.PAYSAGE_IMAGE_PATH));
+				ShapeManager.getInstance().setPaysage(new Paysage(GameConstants.PAYSAGE_IMAGE_PATH));
 				ShapeManager.getInstance().setArbre(new Arbre(100,ShapeManager.getInstance().getPaysage().getTableauAltitudes()));
 				
-				// Create the OpenGL rendering canvas
+				// Canvas de rendu de la scene
 				canvas = new Java3DGameEngineGenerator();
-				canvas.setPreferredSize(new Dimension(PaysageConstants.WINDOW_WIDTH,
-						PaysageConstants.WINDOW_HEIGHT));
+				canvas.setPreferredSize(new Dimension(GameConstants.WINDOW_WIDTH,
+						GameConstants.WINDOW_HEIGHT));
 				
 				// Definit le centre
 				center = new Point();
-				center.setLocation(PaysageConstants.WINDOW_WIDTH / 2, PaysageConstants.WINDOW_HEIGHT / 2);
+				center.setLocation(GameConstants.WINDOW_WIDTH / 2, GameConstants.WINDOW_HEIGHT / 2);
 				
 				try {
 					// Controlleurs
@@ -75,7 +71,7 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 				canvas.requestFocusInWindow();
 				
 				// Animator qui gere la boucle de rendu
-				final FPSAnimator animator = new FPSAnimator(canvas, PaysageConstants.FPS, true);
+				final FPSAnimator animator = new FPSAnimator(canvas, GameConstants.FPS, true);
 
 				// Fenetre
 				final JFrame frame = new JFrame(); // Swing's JFrame or AWT's
@@ -84,9 +80,7 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 				frame.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
-						// Use a dedicate thread to run the stop() to ensure
-						// that the
-						// animator stops before program exits.
+						// Arret du programme
 						new Thread() {
 							@Override
 							public void run() {
@@ -97,14 +91,14 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 						}.start();
 					}
 				});
-				frame.setTitle(PaysageConstants.TITLE);
+				frame.setTitle(GameConstants.TITLE);
 				frame.pack();
 				//frame.setUndecorated(true);     // no decoration such as title bar
 	            //frame.setExtendedState(Frame.MAXIMIZED_BOTH);  // full screen mode
 				frame.setVisible(true);
 				Rectangle r = frame.getBounds();
 				center = new Point(r.x + r.width / 2, r.y + r.height / 2);
-				animator.start(); // start the animation loop
+				animator.start();
 			}
 		});
 	}
@@ -113,6 +107,6 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 
 	/** Listener pour les evenements OpenGL */
 	public Java3DGameEngineGenerator() {
-		this.addGLEventListener(new Paysage3DEventListener());
+		this.addGLEventListener(new Java3DGameEngineEventListener());
 	}
 }

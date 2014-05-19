@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import fr.letzner.graphics.engine.CameraManager;
-import fr.letzner.graphics.utils.PaysageConstants;
+import fr.letzner.graphics.utils.GameConstants;
 
 /**
  * @author stefan
@@ -24,7 +24,7 @@ public class MouseMotionController implements MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent paramMouseEvent) {
-		float angle = ((float)paramMouseEvent.getXOnScreen() * ((float)Math.PI * 2.0f / (float)PaysageConstants.WINDOW_WIDTH));
+		float angle = ((float)paramMouseEvent.getXOnScreen() * ((float)Math.PI * 2.0f / (float)GameConstants.WINDOW_WIDTH));
 		CameraManager.getInstance().getCamera().setAngle(angle);
 	}
 	

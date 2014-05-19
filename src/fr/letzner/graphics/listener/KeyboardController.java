@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import javax.media.opengl.GL2;
 
 import fr.letzner.graphics.engine.CameraManager;
-import fr.letzner.graphics.utils.PaysageConstants;
+import fr.letzner.graphics.utils.GameConstants;
 
 public class KeyboardController implements KeyListener {
 
@@ -37,12 +37,12 @@ public class KeyboardController implements KeyListener {
 		case 37:
 			// Gauche
 			CameraManager.getInstance().getCamera().setAngle(
-					CameraManager.getInstance().getCamera().getAngle() - PaysageConstants.VITESSE);
+					CameraManager.getInstance().getCamera().getAngle() - GameConstants.VITESSE);
 			break;
 		case 39:
 			// Droite
 			CameraManager.getInstance().getCamera().setAngle(
-					CameraManager.getInstance().getCamera().getAngle() + PaysageConstants.VITESSE);
+					CameraManager.getInstance().getCamera().getAngle() + GameConstants.VITESSE);
 			break;
 		case 107:
 			// Descend
