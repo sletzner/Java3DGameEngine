@@ -5,13 +5,15 @@ package fr.letzner.graphics.shapes.Impl;
 
 import javax.media.opengl.GL2;
 
-import fr.letzner.graphics.shapes.Model3D;
+import com.jogamp.opengl.util.texture.Texture;
+
+import fr.letzner.graphics.shapes.AbstractModel3D;
 
 /**
  * @author stefan
  *
  */
-public class Ciel implements Model3D {
+public class Ciel extends AbstractModel3D {
 
 	/**
 	 * {@inheritDoc}
@@ -20,6 +22,12 @@ public class Ciel implements Model3D {
 	public void draw(GL2 gl) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void draw(GL2 gl, Texture texture) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

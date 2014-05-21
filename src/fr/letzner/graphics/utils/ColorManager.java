@@ -99,8 +99,6 @@ public class ColorManager {
 					couleur.setBlue((int)(blue - (plageB * j)));
 				}
 				
-				System.out.println("Index palette" + (index + j));
-				
 				paletteLUT[index + j] = couleur;
 			}
 			

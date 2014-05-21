@@ -3,20 +3,22 @@
  */
 package fr.letzner.graphics.shapes.Impl;
 
-import static javax.media.opengl.GL.*;
-import static javax.media.opengl.GL2GL3.*;
+import static javax.media.opengl.GL.GL_BLEND;
+import static javax.media.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
+import static javax.media.opengl.GL.GL_SRC_ALPHA;
+import static javax.media.opengl.GL.GL_TEXTURE_2D;
+import static javax.media.opengl.GL.GL_TRIANGLES;
+import static javax.media.opengl.GL2GL3.GL_QUADS;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.media.opengl.GL2;
-import javax.media.opengl.GL2ES1;
-import javax.media.opengl.GL2GL3;
 
 import com.jogamp.opengl.util.texture.Texture;
 
-import fr.letzner.graphics.shapes.Model3D;
+import fr.letzner.graphics.shapes.AbstractModel3D;
 import fr.letzner.graphics.utils.GameConstants;
 import fr.letzner.graphics.utils.RandomCoordonnees;
 // GL2 constants
@@ -25,7 +27,7 @@ import fr.letzner.graphics.utils.RandomCoordonnees;
  * @author stefan
  *
  */
-public class Arbre implements Model3D {
+public class Arbre extends AbstractModel3D {
 
 	private float hauteurArbre = 0.5f;
 	private float largeurArbre = 0.2f;
@@ -109,10 +111,6 @@ public class Arbre implements Model3D {
 			textures[indicesTypeArbres[i]].enable(gl);
 			textures[indicesTypeArbres[i]].bind(gl);
 			
-			gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2GL3.GL_TEXTURE_BASE_LEVEL, 0);
-			gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2GL3.GL_TEXTURE_MAX_LEVEL, 5);
-			gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2ES1.GL_GENERATE_MIPMAP, GL2.GL_TRUE);
-			
 			// Transparence des PNG : Assombrit l'image !!!
 			gl.glEnable(GL_BLEND);
 			gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -150,9 +148,17 @@ public class Arbre implements Model3D {
 			
 			
 			gl.glEnd();
+			
+			textures[indicesTypeArbres[i]].disable(gl);
+			
 			gl.glDisable(GL_TEXTURE_2D);
 			gl.glDisable(GL_BLEND);
 		}
+	}
+
+	@Override
+	public void draw(GL2 gl, Texture texture) {
+		// pas utilisé
 	}
 }
 

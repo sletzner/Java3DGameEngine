@@ -3,13 +3,22 @@
  */
 package fr.letzner.graphics.shapes.Impl;
 
+import static javax.media.opengl.GL.GL_LINEAR;
+import static javax.media.opengl.GL.GL_REPEAT;
+import static javax.media.opengl.GL.GL_TEXTURE_2D;
+import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
+import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
+import static javax.media.opengl.GL.GL_TEXTURE_WRAP_S;
+import static javax.media.opengl.GL.GL_TEXTURE_WRAP_T;
 import static javax.media.opengl.GL.GL_TRIANGLES;
 
 import javax.media.opengl.GL2;
 
+import com.jogamp.opengl.util.texture.Texture;
+
 import fr.letzner.graphics.images.ImageManager;
 import fr.letzner.graphics.images.ImageManagerException;
-import fr.letzner.graphics.shapes.Model3D;
+import fr.letzner.graphics.shapes.AbstractModel3D;
 import fr.letzner.graphics.utils.ColorManager;
 import fr.letzner.graphics.utils.GameConstants;
 
@@ -17,18 +26,14 @@ import fr.letzner.graphics.utils.GameConstants;
  * @author stefan
  *
  */
-public class Paysage implements Model3D {
+public class Paysage extends AbstractModel3D {
 
-	private GL2 terrain = null;
+	private final float RATIO_TEXTURE = 0.1f;
 	private ImageManager imageService = null;
 	private int nbPoints = 0;
 	private float[][] tableauAltitudes;
 	private ColorManager colorManager = new ColorManager();
-	
-	/**
-	 * Hauteur maxi
-	 */
-	private float hauteurCarre = 0.1f;
+	private Texture textureSol = null;
 
 	/**
 	 * 
@@ -39,9 +44,11 @@ public class Paysage implements Model3D {
 			imageService = new ImageManager(imagePath);
 			System.out.println("Chargement image " + imagePath + " : OK");
 			
+			// Calcul du nombre de points
 			nbPoints = (imageService.getDimension().width - 1)
 					* (imageService.getDimension().height - 1) * 2 * 3;
 			
+			// Chargement du tableau des altitudes
 			tableauAltitudes = new float[imageService.getDimension().width][imageService.getDimension().height];
 			
 			System.out.println("Nombre de points : " + nbPoints);
@@ -59,6 +66,15 @@ public class Paysage implements Model3D {
 		
 		// Affectation du contexte OpenGL
 		terrain = gl;
+		
+		// Texturage
+		textureSol.enable(gl);
+		textureSol.bind(gl);
+		
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		
 		// Construction avec des triangles
 		terrain.glBegin(GL_TRIANGLES);
@@ -87,26 +103,23 @@ public class Paysage implements Model3D {
 				float valeur2 = getValeurAltitude(couleurs[indiceTableau2]);
 				float valeur3 = getValeurAltitude(couleurs[indiceTableau3]);
 				
-				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur1).getRed(),
-						(byte)colorManager.getColorFromLUT((int)valeur1).getGreen(),
-						(byte)colorManager.getColorFromLUT((int)valeur1).getBlue());
+				//setColorSommet((int)valeur1);
+				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
 				x1 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y1 = valeur1 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z1 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glNormal3f(0.0f, 1.0f, 0.0f);
 				terrain.glVertex3f(x1, y1, z1);
 
-				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur2).getRed(),
-						(byte)colorManager.getColorFromLUT((int)valeur2).getGreen(),
-						(byte)colorManager.getColorFromLUT((int)valeur2).getBlue());
+				//setColorSommet((int)valeur2);
+				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
 				x2 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y2 = valeur2 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z2 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x2, y2, z2);
 
-				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur3).getRed(),
-						(byte)colorManager.getColorFromLUT((int)valeur3).getGreen(),
-						(byte)colorManager.getColorFromLUT((int)valeur3).getBlue());
+				//setColorSommet((int)valeur3);
+				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
 				x3 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y3 = valeur3 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z3 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
@@ -121,26 +134,23 @@ public class Paysage implements Model3D {
 				float valeur5 = getValeurAltitude(couleurs[indiceTableau5]);
 				float valeur6 = getValeurAltitude(couleurs[indiceTableau6]);
 
-				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur4).getRed(),
-						(byte)colorManager.getColorFromLUT((int)valeur4).getGreen(),
-						(byte)colorManager.getColorFromLUT((int)valeur4).getBlue());
-				terrain.glNormal3f(0.0f, 1.0f, 0.0f);
+				//setColorSommet((int)valeur4);
+				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
 				x4 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y4 = valeur4 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z4 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
+				terrain.glNormal3f(0.0f, 1.0f, 0.0f);
 				terrain.glVertex3f(x4, y4, z4);
 
-				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur5).getRed(),
-						(byte)colorManager.getColorFromLUT((int)valeur5).getGreen(),
-						(byte)colorManager.getColorFromLUT((int)valeur5).getBlue());
+				//setColorSommet((int)valeur5);
+				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
 				x5 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y5 = valeur5 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z5 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x5, y5, z5);
 
-				terrain.glColor3ub((byte)colorManager.getColorFromLUT((int)valeur6).getRed(),
-						(byte)colorManager.getColorFromLUT((int)valeur6).getGreen(),
-						(byte)colorManager.getColorFromLUT((int)valeur6).getBlue());
+				//setColorSommet((int)valeur6);
+				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
 				x6 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y6 = valeur6 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z6 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
@@ -151,6 +161,18 @@ public class Paysage implements Model3D {
 			}
 		}
 		terrain.glEnd();
+		
+		textureSol.disable(gl);
+	}
+	
+	private void setColorSommet(int valeur) {
+		terrain.glColor3ub((byte)colorManager.getColorFromLUT(valeur).getRed(),
+				(byte)colorManager.getColorFromLUT(valeur).getGreen(),
+				(byte)colorManager.getColorFromLUT(valeur).getBlue());
+	}
+	
+	private void setTextureSommet(GL2 gl, float x, float y) {
+		gl.glTexCoord2f(x, y);
 	}
 
 	/**
@@ -184,6 +206,13 @@ public class Paysage implements Model3D {
 
 	public float[][] getTableauAltitudes() {
 		return tableauAltitudes;
+	}
+
+	@Override
+	public void draw(GL2 gl, Texture texture) {
+		textureSol = texture;
+		
+		this.draw(gl);
 	}
 	
 	

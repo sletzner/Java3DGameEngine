@@ -57,13 +57,13 @@ public class KeyboardController implements KeyListener {
 
 	@Override
 	public void keyReleased(java.awt.event.KeyEvent paramKeyEvent) {
-		System.out.println("Key Released : " + paramKeyEvent.getKeyCode());
+		//System.out.println("Key Released : " + paramKeyEvent.getKeyCode());
 
 	}
 
 	@Override
 	public void keyTyped(java.awt.event.KeyEvent paramKeyEvent) {
-		System.out.println("Key Typed : " + paramKeyEvent.getKeyCode());
+		//System.out.println("Key Typed : " + paramKeyEvent.getKeyCode());
 
 	}
 

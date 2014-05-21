@@ -19,4 +19,5 @@ public class GameConstants {
 	public static String PAYSAGE_IMAGE_PATH = "/home/stefan/Dev/Ressources/TerrainFractal.gif";
 	public static float COEFFICIENT_REDUCTEUR = 10.0f;
 	public static float LARGEUR_CARRE = 1.0f;
+	public static String GRASS_TEXTURE_PATH = "/home/stefan/Dev/Ressources/Textures/Herbe-eparse-etirable.jpg";
 }

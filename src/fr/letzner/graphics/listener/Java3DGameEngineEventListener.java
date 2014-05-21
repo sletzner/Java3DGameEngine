@@ -3,15 +3,14 @@
  */
 package fr.letzner.graphics.listener;
 
-import static javax.media.opengl.GL.GL_DEPTH_TEST;
-import static javax.media.opengl.GL.GL_LEQUAL;
-import static javax.media.opengl.GL.GL_NICEST;
+import static javax.media.opengl.GL2.*;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.Point;
+import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
@@ -24,8 +23,8 @@ import com.jogamp.opengl.util.texture.Texture;
 
 import fr.letzner.graphics.engine.CameraManager;
 import fr.letzner.graphics.shapes.Impl.ShapeManager;
+import fr.letzner.graphics.textures.TextureManager;
 import fr.letzner.graphics.utils.ColorManager;
-import fr.letzner.textures.TextureManager;
 
 /**
  * @author stefan
@@ -41,9 +40,22 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 	private float canvasWidth = 0.0f;
 	private float canvasHeight = 0.0f;
 	private ColorManager colorManager = new ColorManager();
+	private int fogMode;
+	private IntBuffer positionLumiere = IntBuffer.allocate(4);
+	private IntBuffer matSpec = IntBuffer.allocate(4);
 	
 	public Java3DGameEngineEventListener() {
 		glp = GLProfile.getDefault();
+
+		matSpec.put(1);
+		matSpec.put(1);
+		matSpec.put(1);
+		matSpec.put(1);
+		
+		positionLumiere.put(0);
+		positionLumiere.put(50);
+		positionLumiere.put(0);
+		positionLumiere.put(1);
 	}
 	
 	/**
@@ -61,15 +73,39 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 		this.canvasWidth = gl.getContext().getGLDrawable().getWidth();
 		this.canvasHeight = gl.getContext().getGLDrawable().getHeight();
 		
-		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 				// set background (clear) color
+		gl.glClearColor(0.2f, 0.0f, 1.0f, 0.0f); 				// set background (clear) color
 		gl.glClearDepth(1.0f); 									// set clear depth value to farthest
-		gl.glEnable(GL_DEPTH_TEST); 							// enables depth testing
+		gl.glEnable(GL_DEPTH_TEST); 							// Active le test de profondeur
 		gl.glDepthFunc(GL_LEQUAL); 								// the type of depth test to do
 		gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 	// best perspective correction
 		gl.glShadeModel(GL_SMOOTH); 							// blends colors nicely, and smoothes out lighting
 
 		// Autres initialisations ici
 		textureManager = new TextureManager(glp);
+		
+		/* Brouillard */
+		//gl.glEnable(GL2.GL_FOG);
+		float fogColor[] =
+		      { 0.5f, 0.5f, 0.5f, 1.0f };
+
+	    fogMode = GL2.GL_EXP2;
+	    
+	    gl.glFogi(GL2.GL_FOG_MODE, fogMode);
+	    gl.glFogfv(GL2.GL_FOG_COLOR, fogColor, 0);
+	    gl.glFogf(GL2.GL_FOG_DENSITY, 0.35f);
+	    gl.glHint(GL2.GL_FOG_HINT, GL.GL_DONT_CARE);
+
+	    // Lumiere
+	    //gl.glEnable(GL_LIGHTING);	// Active l'éclairage
+	    gl.glEnable(GL_LIGHT0);	// Allume la lumière n°1
+	    
+	    
+	    
+	    
+		gl.glEnable(GL2.GL_AUTO_NORMAL); 
+		gl.glEnable(GL2.GL_NORMALIZE); 
+		gl.glShadeModel(GL2.GL_SMOOTH); 
+		gl.glDepthFunc(GL2.GL_LESS);
 	}
 
 	/**
@@ -95,34 +131,45 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 		// Setup perspective projection, with aspect ratio matches viewport
 		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
 		gl.glLoadIdentity(); // reset projection matrix
-		glu.gluPerspective(45.0f, 1.5f, 0.1, 100.0); // fovy, aspect, zNear,
+		//glu.gluPerspective(45.0f, 1.5f, 0.1, 100.0); // fovy, aspect, zNear,
 														// zFar
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
+		
+		// Lumiere
+		gl.glMaterialiv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpec);
+		gl.glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 1000);
+		
+		gl.glLightiv(GL_LIGHT0, GL_POSITION, positionLumiere);
 		
 		//glu.gluLookAt(0, 0, -6.0, 0, 0, 0, 0, 1, 0);
 		
 		CameraManager.getInstance().setCamera(gl, glu, canvasWidth, canvasHeight);
 		update(drawable);
 		
-		//glu.gluLookAt(0, 0, -6.0, 0, 0, 0, 0, 1, 0);
-		//colorManager.ShowLUTPalette();
-		//colorManager.drawPalette(gl);
+		fogMode = GL2.GL_EXP;
+		gl.glFogf(GL2.GL_FOG_START, 5.0f);
+	    gl.glFogf(GL2.GL_FOG_END, 50.0f);
+	    gl.glFogi(GL2.GL_FOG_MODE, fogMode);
+
+	    // Rendu du paysage
 		renderTerrain(drawable);
-		//colorManager.drawPalette(gl);
 		
 		gl.glFlush();
 	}
 	
 	public void renderTerrain(GLAutoDrawable drawable) {
-		// Generate Paysage3D
 		GL2 gl = drawable.getGL().getGL2();
-		ShapeManager.getInstance().getPaysage().draw(gl);
+		
+		// Generate Paysage3D
+		ShapeManager.getInstance().getPaysage().draw(gl, textureManager.getTextureSol());
 		
 		// Generation des arbres
-		textures = textureManager.getTexturesArbres();
-		ShapeManager.getInstance().getArbre().drawTrees(gl, textures);
+		ShapeManager.getInstance().getArbre().drawTrees(gl, textureManager.getTexturesArbres());
+		
+		// Generation du ciel
+		//ShapeManager.getInstance().getArbre().drawTrees(gl, textureManager.getTexturesArbres());
 	}
 
 	/**
