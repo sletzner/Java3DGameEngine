@@ -2,7 +2,8 @@ package fr.letzner.graphics.actors;
 
 public class Camera {
 	
-	private float angle = 0.0f;
+	private float angle_H = 0.0f;
+	private float angle_V = 0.0f;
 	private float eye_x = 0.0f;
 	private float eye_y = 0.0f;
 	private float eye_z = 0.0f;
@@ -16,11 +17,17 @@ public class Camera {
 	private float distance = 20.0f;
 	
 	
-	public float getAngle() {
-		return angle;
+	public float getAngle_H() {
+		return angle_H;
 	}
-	public void setAngle(float angle) {
-		this.angle = angle;
+	public void setAngle_H(float angle) {
+		this.angle_H = angle;
+	}
+	public float getAngle_V() {
+		return angle_V;
+	}
+	public void setAngle_V(float angle) {
+		this.angle_V = angle;
 	}
 	public float getEye_x() {
 		return eye_x;

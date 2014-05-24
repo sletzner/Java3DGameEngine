@@ -36,13 +36,13 @@ public class KeyboardController implements KeyListener {
 			break;
 		case 37:
 			// Gauche
-			CameraManager.getInstance().getCamera().setAngle(
-					CameraManager.getInstance().getCamera().getAngle() - GameConstants.VITESSE);
+			CameraManager.getInstance().getCamera().setAngle_H(
+					CameraManager.getInstance().getCamera().getAngle_H() - GameConstants.VITESSE);
 			break;
 		case 39:
 			// Droite
-			CameraManager.getInstance().getCamera().setAngle(
-					CameraManager.getInstance().getCamera().getAngle() + GameConstants.VITESSE);
+			CameraManager.getInstance().getCamera().setAngle_H(
+					CameraManager.getInstance().getCamera().getAngle_H() + GameConstants.VITESSE);
 			break;
 		case 107:
 			// Descend

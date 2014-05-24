@@ -19,6 +19,7 @@ public class TextureManager {
 	private String[] pathTexturesArbres = new String[4];
 	private Texture[] texturesArbres = new Texture[4];
 	private Texture textureSol = null;
+	private Texture textureEau = null;
 	private String basePath = "/home/stefan/Dev/Ressources/Arbes/";
 	private GLProfile gp = null;
 	
@@ -31,6 +32,16 @@ public class TextureManager {
 		chargerTexturesArbres();
 		
 		chargerTextureSol();
+		
+		chargerTextureEau();
+	}
+
+	private void chargerTextureEau() {
+		try {
+			textureEau = AWTTextureIO.newTexture(gp, (BufferedImage)ImageIO.read(new File(GameConstants.WATER_TEXTURE_PATH)), true);
+		} catch (GLException | IOException e) {
+			System.out.println("Erreur lors du chargement de la texture de l'eau : " + e.getMessage());
+		}
 	}
 
 	private void chargerTextureSol() {
@@ -40,6 +51,8 @@ public class TextureManager {
 			System.out.println("Erreur lors du chargement de la texture du sol : " + e.getMessage());
 		}
 	}
+	
+	
 
 	private void chargerTexturesArbres() {
 		pathTexturesArbres[0] = "Arbre-boulot-petit-256-512.png";
@@ -80,6 +93,10 @@ public class TextureManager {
 
 	public Texture getTextureSol() {
 		return textureSol;
+	}
+
+	public Texture getTextureEau() {
+		return textureEau;
 	}
 
 	

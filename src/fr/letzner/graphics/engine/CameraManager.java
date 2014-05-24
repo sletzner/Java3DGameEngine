@@ -88,9 +88,9 @@ public class CameraManager {
 	 */
 	private void updateRotationCameraEtJoueur() {
 		// La camera voit ce que le joueur voit
-		camera.setAt_x(PlayerManager.getInstance().getPlayer().getX() - (float)Math.cos(camera.getAngle()) * camera.getOffset());
-		camera.setAt_y(PlayerManager.getInstance().getPlayer().getY());
-		camera.setAt_z(PlayerManager.getInstance().getPlayer().getZ() - (float)Math.sin(camera.getAngle()) * camera.getOffset());
+		camera.setAt_x(PlayerManager.getInstance().getPlayer().getX() - (float)Math.cos(camera.getAngle_H()) * camera.getOffset());
+		camera.setAt_y(PlayerManager.getInstance().getPlayer().getY() - (float)Math.tan(camera.getAngle_V()) * camera.getOffset());
+		camera.setAt_z(PlayerManager.getInstance().getPlayer().getZ() - (float)Math.sin(camera.getAngle_H()) * camera.getOffset());
 	}
 	
 	/**
@@ -99,23 +99,27 @@ public class CameraManager {
 	 */
 	public void updatePositionCameraEtJoueur(boolean avance) {
 		// Variables
-		float x, z = 0.0f;
+		float x, y, z = 0.0f;
 		
 		if (avance) {
 			// Le joueur avance
-			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle()) + GameConstants.VITESSE);
-			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle()) + GameConstants.VITESSE);
+			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE);
+			y = PlayerManager.getInstance().getPlayer().getY() - ((float)Math.tan(camera.getAngle_V()) + GameConstants.VITESSE);
+			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE);
 		} else {
 			// Le joueur recule
-			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle()) + GameConstants.VITESSE);
-			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle()) + GameConstants.VITESSE);
+			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE);
+			y = PlayerManager.getInstance().getPlayer().getY() + ((float)Math.tan(camera.getAngle_V()) + GameConstants.VITESSE);
+			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE);
 		}
 		
 		// Mise a jour de la camera et du joueur
 		PlayerManager.getInstance().getPlayer().setX(x);
+		PlayerManager.getInstance().getPlayer().setY(y);
 		PlayerManager.getInstance().getPlayer().setZ(z);
 		
 		camera.setEye_x(x);
+		camera.setEye_y(y);
 		camera.setEye_z(z);
 	}
 	
@@ -128,10 +132,10 @@ public class CameraManager {
 		float y = 0.0f;
 		
 		if (monte) {
-			// Le joueur avance
+			// Le joueur monte
 			y = PlayerManager.getInstance().getPlayer().getY() + GameConstants.VITESSE;
 		} else {
-			// Le joueur recule
+			// Le joueur descend
 			y = PlayerManager.getInstance().getPlayer().getY() - GameConstants.VITESSE;
 		}
 		

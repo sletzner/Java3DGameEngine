@@ -14,7 +14,7 @@ public class ColorManager {
 	
 	private ColorRGB[] paletteInitiale = null;
 	private ColorRGB[] paletteLUT = null;
-	private final int nbCouleurs = 5;
+	private final int nbCouleurs = 4;
 	private final int nbCouleursPalette = 256;
 	private final int etapesIntermediaires = nbCouleursPalette / (nbCouleurs-1);
 	
@@ -35,9 +35,9 @@ public class ColorManager {
 		
 		paletteInitiale[0] = bleu;
 		paletteInitiale[1] = vert;
-		paletteInitiale[2] = marron;
-		paletteInitiale[3] = gris;
-		paletteInitiale[4] = blanc;
+		//paletteInitiale[2] = marron;
+		paletteInitiale[2] = gris;
+		paletteInitiale[3] = blanc;
 		
 		creerPaletteLUT();
 		//creerPaletteLUT_NB();

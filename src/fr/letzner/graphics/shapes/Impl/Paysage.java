@@ -3,14 +3,15 @@
  */
 package fr.letzner.graphics.shapes.Impl;
 
-import static javax.media.opengl.GL.GL_LINEAR;
-import static javax.media.opengl.GL.GL_REPEAT;
-import static javax.media.opengl.GL.GL_TEXTURE_2D;
-import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
-import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
-import static javax.media.opengl.GL.GL_TEXTURE_WRAP_S;
-import static javax.media.opengl.GL.GL_TEXTURE_WRAP_T;
-import static javax.media.opengl.GL.GL_TRIANGLES;
+import static javax.media.opengl.GL2.GL_LINEAR;
+import static javax.media.opengl.GL2.GL_REPEAT;
+import static javax.media.opengl.GL2.GL_TEXTURE_2D;
+import static javax.media.opengl.GL2.GL_TEXTURE_MAG_FILTER;
+import static javax.media.opengl.GL2.GL_TEXTURE_MIN_FILTER;
+import static javax.media.opengl.GL2.GL_TEXTURE_WRAP_S;
+import static javax.media.opengl.GL2.GL_TEXTURE_WRAP_T;
+import static javax.media.opengl.GL2.GL_TRIANGLES;
+import static javax.media.opengl.GL2GL3.GL_QUADS;
 
 import javax.media.opengl.GL2;
 
@@ -28,12 +29,15 @@ import fr.letzner.graphics.utils.GameConstants;
  */
 public class Paysage extends AbstractModel3D {
 
-	private final float RATIO_TEXTURE = 0.1f;
+	private final float RATIO_TEXTURE = 1f;
 	private ImageManager imageService = null;
 	private int nbPoints = 0;
 	private float[][] tableauAltitudes;
 	private ColorManager colorManager = new ColorManager();
 	private Texture textureSol = null;
+	private Texture textureEau = null;
+	private int decalX = 0;
+	private int decalZ = 0;
 
 	/**
 	 * 
@@ -51,6 +55,10 @@ public class Paysage extends AbstractModel3D {
 			// Chargement du tableau des altitudes
 			tableauAltitudes = new float[imageService.getDimension().width][imageService.getDimension().height];
 			
+			// Centrage du paysage
+			decalX = imageService.getDimension().width / 2;
+			decalZ = imageService.getDimension().height / 2;
+			
 			System.out.println("Nombre de points : " + nbPoints);
 		} catch (ImageManagerException e) {
 			// TODO Auto-generated catch block
@@ -67,6 +75,39 @@ public class Paysage extends AbstractModel3D {
 		// Affectation du contexte OpenGL
 		terrain = gl;
 		
+		genererPaysage(terrain);
+		
+		genererLacs(terrain);
+	}
+	
+	private void genererLacs(GL2 gl) {
+		// Texturage
+		textureEau.enable(gl);
+		textureEau.bind(gl);
+		
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		
+		// Construction avec un carre
+		terrain.glBegin(GL_QUADS);
+		
+		// Dessin des deux faces avec textures
+        setTextureSommet(gl, 1.0f * RATIO_TEXTURE, 0.0f * RATIO_TEXTURE);
+        gl.glVertex3f(-decalX * GameConstants.LARGEUR_CARRE, GameConstants.NIVEAU_EAU, -decalZ * GameConstants.LARGEUR_CARRE);
+        setTextureSommet(gl, 0.0f * RATIO_TEXTURE, 0.0f * RATIO_TEXTURE);
+        gl.glVertex3f(decalX * GameConstants.LARGEUR_CARRE, GameConstants.NIVEAU_EAU, -decalZ * GameConstants.LARGEUR_CARRE);
+        setTextureSommet(gl, 0.0f * RATIO_TEXTURE, 1.0f * RATIO_TEXTURE);
+        gl.glVertex3f(decalX * GameConstants.LARGEUR_CARRE, GameConstants.NIVEAU_EAU, decalZ * GameConstants.LARGEUR_CARRE);
+        setTextureSommet(gl, 1.0f * RATIO_TEXTURE, 1.0f * RATIO_TEXTURE);
+        gl.glVertex3f(-decalX * GameConstants.LARGEUR_CARRE, GameConstants.NIVEAU_EAU, decalZ * GameConstants.LARGEUR_CARRE);
+		
+		
+		textureSol.disable(gl);
+	}
+
+	private void genererPaysage(GL2 gl) {
 		// Texturage
 		textureSol.enable(gl);
 		textureSol.bind(gl);
@@ -80,9 +121,6 @@ public class Paysage extends AbstractModel3D {
 		terrain.glBegin(GL_TRIANGLES);
 
 		//System.out.print("Generation des facettes :");
-
-		int decalX = imageService.getDimension().width / 2;
-		int decalZ = imageService.getDimension().height / 2;
 
 		// Recuperation tableau couleurs
 		int[] couleurs = imageService.getImageColorsArray();
@@ -111,7 +149,7 @@ public class Paysage extends AbstractModel3D {
 				terrain.glNormal3f(0.0f, 1.0f, 0.0f);
 				terrain.glVertex3f(x1, y1, z1);
 
-				//setColorSommet((int)valeur2);
+				setColorSommet((int)valeur2);
 				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
 				x2 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y2 = valeur2 / GameConstants.COEFFICIENT_REDUCTEUR;
@@ -134,7 +172,7 @@ public class Paysage extends AbstractModel3D {
 				float valeur5 = getValeurAltitude(couleurs[indiceTableau5]);
 				float valeur6 = getValeurAltitude(couleurs[indiceTableau6]);
 
-				//setColorSommet((int)valeur4);
+				setColorSommet((int)valeur4);
 				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
 				x4 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y4 = valeur4 / GameConstants.COEFFICIENT_REDUCTEUR;
@@ -142,14 +180,14 @@ public class Paysage extends AbstractModel3D {
 				terrain.glNormal3f(0.0f, 1.0f, 0.0f);
 				terrain.glVertex3f(x4, y4, z4);
 
-				//setColorSommet((int)valeur5);
+				setColorSommet((int)valeur5);
 				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
 				x5 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y5 = valeur5 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z5 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x5, y5, z5);
 
-				//setColorSommet((int)valeur6);
+				setColorSommet((int)valeur6);
 				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
 				x6 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y6 = valeur6 / GameConstants.COEFFICIENT_REDUCTEUR;
@@ -209,10 +247,17 @@ public class Paysage extends AbstractModel3D {
 	}
 
 	@Override
-	public void draw(GL2 gl, Texture texture) {
-		textureSol = texture;
+	public void draw(GL2 gl, Texture textureSol, Texture textureEau) {
+		this.textureSol = textureSol;
+		this.textureEau = textureEau;
 		
 		this.draw(gl);
+	}
+
+	@Override
+	public void draw(GL2 gl, Texture texture) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

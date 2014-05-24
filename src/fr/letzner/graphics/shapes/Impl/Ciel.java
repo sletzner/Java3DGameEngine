@@ -30,4 +30,10 @@ public class Ciel extends AbstractModel3D {
 		
 	}
 
+	@Override
+	public void draw(GL2 gl, Texture texture1, Texture texture2) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

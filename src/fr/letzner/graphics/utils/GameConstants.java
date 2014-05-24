@@ -20,4 +20,6 @@ public class GameConstants {
 	public static float COEFFICIENT_REDUCTEUR = 10.0f;
 	public static float LARGEUR_CARRE = 1.0f;
 	public static String GRASS_TEXTURE_PATH = "/home/stefan/Dev/Ressources/Textures/Herbe-eparse-etirable.jpg";
+	public static String WATER_TEXTURE_PATH = "/home/stefan/Dev/Ressources/Textures/Eau-etirable.jpg";
+	public static float NIVEAU_EAU = 10.0f;
 }

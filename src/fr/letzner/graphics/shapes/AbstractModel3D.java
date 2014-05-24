@@ -25,4 +25,9 @@ public abstract class AbstractModel3D {
 	 */
 	public abstract void draw(GL2 gl, Texture texture);
 	
+	/**
+	 * Creation du model et chargement de facettes avec 2 textures
+	 */
+	public abstract void draw(GL2 gl, Texture texture1, Texture texture2);
+	
 }

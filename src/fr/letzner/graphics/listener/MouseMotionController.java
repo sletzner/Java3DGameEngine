@@ -24,8 +24,13 @@ public class MouseMotionController implements MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent paramMouseEvent) {
-		float angle = ((float)paramMouseEvent.getXOnScreen() * ((float)Math.PI * 2.0f / (float)GameConstants.WINDOW_WIDTH));
-		CameraManager.getInstance().getCamera().setAngle(angle);
+		float angle_H = ((float)paramMouseEvent.getXOnScreen() * ((float)Math.PI * 2.0f / (float)GameConstants.WINDOW_WIDTH));
+		float angle_V = ((float)paramMouseEvent.getYOnScreen() * ((float)Math.PI * 2.0f / (float)GameConstants.WINDOW_HEIGHT));
+		
+		CameraManager.getInstance().getCamera().setAngle_H(angle_H);
+		CameraManager.getInstance().getCamera().setAngle_V(angle_V);
+		
+		System.out.println(angle_H + " - " + angle_V);
 	}
 	
 	@Override
