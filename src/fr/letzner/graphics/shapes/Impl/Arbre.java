@@ -56,7 +56,7 @@ public class Arbre extends AbstractModel3D {
 	public Arbre(float[][] tableauNiveaux) {
 		
 		// Initialisation des coordonnées
-		this.nbArbres = new Random().nextInt(tableauNiveaux.length);
+		this.nbArbres = tableauNiveaux.length * 10;
 		this.tableauNiveaux = tableauNiveaux;
 		this.indicesTypeArbres = new int[nbArbres];
 		this.textures = new String[nbTypeArbres];
@@ -165,7 +165,7 @@ public class Arbre extends AbstractModel3D {
 	}
 
 	@Override
-	public void draw(GL2 gl, Texture texture1, Texture texture2) {
+	public void draw(GL2 gl, Texture sol, Texture eau) {
 		// TODO Auto-generated method stub
 		
 	}

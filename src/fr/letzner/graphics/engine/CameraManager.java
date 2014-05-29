@@ -7,6 +7,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
 import fr.letzner.graphics.actors.Camera;
+import fr.letzner.graphics.shapes.Impl.ShapeManager;
 import fr.letzner.graphics.utils.GameConstants;
 
 /**
@@ -24,6 +25,11 @@ public class CameraManager {
 	 * Instance du singleton
 	 */
 	private static CameraManager instance = null;
+	
+	/**
+	 * Possibilité de voler ou rester sur le terrain
+	 */
+	private boolean modeVolActif = true;
 	
 	
 	
@@ -89,8 +95,8 @@ public class CameraManager {
 	private void updateRotationCameraEtJoueur() {
 		// La camera voit ce que le joueur voit
 		camera.setAt_x(PlayerManager.getInstance().getPlayer().getX() - (float)Math.cos(camera.getAngle_H()) * camera.getOffset());
-		camera.setAt_y(PlayerManager.getInstance().getPlayer().getY() - (float)Math.tan(camera.getAngle_V()) * camera.getOffset());
 		camera.setAt_z(PlayerManager.getInstance().getPlayer().getZ() - (float)Math.sin(camera.getAngle_H()) * camera.getOffset());
+		camera.setAt_y(PlayerManager.getInstance().getPlayer().getY() - (float)Math.tan(camera.getAngle_V()) * camera.getOffset());
 	}
 	
 	/**
@@ -99,18 +105,34 @@ public class CameraManager {
 	 */
 	public void updatePositionCameraEtJoueur(boolean avance) {
 		// Variables
-		float x, y, z = 0.0f;
+		float x = 0.0f;
+		float y = 0.0f;
+		float z = 0.0f;
 		
 		if (avance) {
 			// Le joueur avance
-			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE);
-			y = PlayerManager.getInstance().getPlayer().getY() - ((float)Math.tan(camera.getAngle_V()) + GameConstants.VITESSE);
-			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE);
+			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
+			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
+			
+			if (this.isModeVolActif()) {
+				// Calcul de la hauteur uniquement si en mode VOL
+				y = PlayerManager.getInstance().getPlayer().getY() - ((float)Math.tan(camera.getAngle_V()) + GameConstants.VITESSE_ROTATION);
+			} else {
+				// Hauteur par rapport au terrain
+				y = getHauteurTerrain(x, z);
+			}
 		} else {
 			// Le joueur recule
-			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE);
-			y = PlayerManager.getInstance().getPlayer().getY() + ((float)Math.tan(camera.getAngle_V()) + GameConstants.VITESSE);
-			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE);
+			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
+			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
+			
+			if (this.isModeVolActif()) {
+				// Calcul de la hauteur uniquement si en mode VOL
+				y = PlayerManager.getInstance().getPlayer().getY() + ((float)Math.tan(camera.getAngle_V()) + GameConstants.VITESSE_ROTATION);
+			} else {
+				// Hauteur par rapport au terrain
+				y = getHauteurTerrain(x, z);
+			}
 		}
 		
 		// Mise a jour de la camera et du joueur
@@ -124,23 +146,53 @@ public class CameraManager {
 	}
 	
 	/**
+	 * Calcul de la hauteur par rapport au terrain
+	 * @param x
+	 * @param z
+	 * @return altitude
+	 */
+	private float getHauteurTerrain(float x, float z) {
+		x = x + ShapeManager.getInstance().getPaysage().getDecalX();
+		z = z + ShapeManager.getInstance().getPaysage().getDecalZ();
+		
+		float alt = ShapeManager.getInstance().getPaysage().getTableauAltitudes()[(int)(x)][(int)z] + 0.5f;
+		
+		System.out.println("Altitude = " + alt);
+		
+		return alt;
+	}
+
+	/**
 	 * Gestion simultanée de l'altitude de la camera et du joueur
 	 * @param monte
 	 */
 	public void updateAltitudeCameraEtJoueur(boolean monte) {
-		// Variables
-		float y = 0.0f;
-		
-		if (monte) {
-			// Le joueur monte
-			y = PlayerManager.getInstance().getPlayer().getY() + GameConstants.VITESSE;
-		} else {
-			// Le joueur descend
-			y = PlayerManager.getInstance().getPlayer().getY() - GameConstants.VITESSE;
+		// Que si le mode VOL est activé
+		if (this.isModeVolActif()) {
+			// Variables
+			float y = 0.0f;
+			
+			if (monte) {
+				// Le joueur monte
+				y = PlayerManager.getInstance().getPlayer().getY() + GameConstants.VITESSE_MONTEE;
+			} else {
+				// Le joueur descend
+				y = PlayerManager.getInstance().getPlayer().getY() - GameConstants.VITESSE_MONTEE;
+			}
+			
+			// Mise a jour de la camera et du joueur
+			PlayerManager.getInstance().getPlayer().setY(y);
+			camera.setEye_y(y);
 		}
-		
-		// Mise a jour de la camera et du joueur
-		PlayerManager.getInstance().getPlayer().setY(y);
-		camera.setEye_y(y);
 	}
+
+	public boolean isModeVolActif() {
+		return modeVolActif;
+	}
+
+	public void setModeVolActif(boolean modeVolActif) {
+		this.modeVolActif = modeVolActif;
+	}
+
+	
 }

@@ -29,7 +29,7 @@ import fr.letzner.graphics.utils.GameConstants;
  */
 public class Paysage extends AbstractModel3D {
 
-	private final float RATIO_TEXTURE = 1f;
+	private final float RATIO_TEXTURE = 5f;
 	private ImageManager imageService = null;
 	private int nbPoints = 0;
 	private float[][] tableauAltitudes;
@@ -120,8 +120,6 @@ public class Paysage extends AbstractModel3D {
 		// Construction avec des triangles
 		terrain.glBegin(GL_TRIANGLES);
 
-		//System.out.print("Generation des facettes :");
-
 		// Recuperation tableau couleurs
 		int[] couleurs = imageService.getImageColorsArray();
 		
@@ -141,8 +139,11 @@ public class Paysage extends AbstractModel3D {
 				float valeur2 = getValeurAltitude(couleurs[indiceTableau2]);
 				float valeur3 = getValeurAltitude(couleurs[indiceTableau3]);
 				
-				//setColorSommet((int)valeur1);
-				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
+				setColorSommet((int)valeur1);
+				//setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
+				setTextureSommet(gl, (float)x / (float)imageService.getDimension().width, (float)z / (float)imageService.getDimension().height);
+				
+				
 				x1 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y1 = valeur1 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z1 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
@@ -150,14 +151,14 @@ public class Paysage extends AbstractModel3D {
 				terrain.glVertex3f(x1, y1, z1);
 
 				setColorSommet((int)valeur2);
-				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
+				setTextureSommet(gl, (float)x / (float)imageService.getDimension().width, (float)(z + 1) / (float)imageService.getDimension().height);
 				x2 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y2 = valeur2 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z2 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x2, y2, z2);
 
-				//setColorSommet((int)valeur3);
-				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
+				setColorSommet((int)valeur3);
+				setTextureSommet(gl, (float)(x + 1) / (float)imageService.getDimension().width, (float)(z + 1) / (float)imageService.getDimension().height);
 				x3 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y3 = valeur3 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z3 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
@@ -173,7 +174,7 @@ public class Paysage extends AbstractModel3D {
 				float valeur6 = getValeurAltitude(couleurs[indiceTableau6]);
 
 				setColorSommet((int)valeur4);
-				setTextureSommet(gl, (float)x * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
+				setTextureSommet(gl, (float)x / (float)imageService.getDimension().width, (float)z / (float)imageService.getDimension().height);
 				x4 = (x - decalX) * GameConstants.LARGEUR_CARRE;
 				y4 = valeur4 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z4 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
@@ -181,14 +182,16 @@ public class Paysage extends AbstractModel3D {
 				terrain.glVertex3f(x4, y4, z4);
 
 				setColorSommet((int)valeur5);
-				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
+				//setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)(z + 1) * RATIO_TEXTURE);
+				setTextureSommet(gl, (float)(x + 1) / (float)imageService.getDimension().width, (float)(z + 1) / (float)imageService.getDimension().height);
+				
 				x5 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y5 = valeur5 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z5 = (z + 1 - decalZ) * GameConstants.LARGEUR_CARRE;
 				terrain.glVertex3f(x5, y5, z5);
 
 				setColorSommet((int)valeur6);
-				setTextureSommet(gl, (float)(x + 1) * RATIO_TEXTURE, (float)z * RATIO_TEXTURE);
+				setTextureSommet(gl, (float)(x + 1) / (float)imageService.getDimension().width, (float)z / (float)imageService.getDimension().height);
 				x6 = (x + 1 - decalX) * GameConstants.LARGEUR_CARRE;
 				y6 = valeur6 / GameConstants.COEFFICIENT_REDUCTEUR;
 				z6 = (z - decalZ) * GameConstants.LARGEUR_CARRE;
@@ -203,12 +206,22 @@ public class Paysage extends AbstractModel3D {
 		textureSol.disable(gl);
 	}
 	
+	/**
+	 * Attribution de la couleur d'un sommet
+	 * @param valeur
+	 */
 	private void setColorSommet(int valeur) {
 		terrain.glColor3ub((byte)colorManager.getColorFromLUT(valeur).getRed(),
 				(byte)colorManager.getColorFromLUT(valeur).getGreen(),
 				(byte)colorManager.getColorFromLUT(valeur).getBlue());
 	}
 	
+	/**
+	 * Coordonnées de la texture
+	 * @param gl
+	 * @param x
+	 * @param y
+	 */
 	private void setTextureSommet(GL2 gl, float x, float y) {
 		gl.glTexCoord2f(x, y);
 	}
@@ -228,8 +241,6 @@ public class Paysage extends AbstractModel3D {
 																 * couleurs en
 																 * 256 NG
 																 */
-		//valeur = valeur * hauteurCarre; /* Echelle du modele 3D */
-
 		return valeur;
 	}
 
@@ -247,17 +258,30 @@ public class Paysage extends AbstractModel3D {
 	}
 
 	@Override
-	public void draw(GL2 gl, Texture textureSol, Texture textureEau) {
-		this.textureSol = textureSol;
-		this.textureEau = textureEau;
-		
-		this.draw(gl);
-	}
-
-	@Override
 	public void draw(GL2 gl, Texture texture) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void draw(GL2 gl, Texture sol, Texture eau) {
+		this.textureSol = sol;
+		this.textureEau = eau;
+		this.draw(gl);
+	}
+
+	/**
+	 * @return the decalX
+	 */
+	public int getDecalX() {
+		return decalX;
+	}
+
+	/**
+	 * @return the decalZ
+	 */
+	public int getDecalZ() {
+		return decalZ;
 	}
 	
 	

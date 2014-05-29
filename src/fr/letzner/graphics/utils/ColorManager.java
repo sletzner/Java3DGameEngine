@@ -34,9 +34,11 @@ public class ColorManager {
 		ColorRGB blanc = new ColorRGB(255, 255, 255);
 		
 		paletteInitiale[0] = bleu;
+		//paletteInitiale[1] = vert;
 		paletteInitiale[1] = vert;
 		//paletteInitiale[2] = marron;
-		paletteInitiale[2] = gris;
+		//paletteInitiale[2] = gris;
+		paletteInitiale[2] = blanc;
 		paletteInitiale[3] = blanc;
 		
 		creerPaletteLUT();

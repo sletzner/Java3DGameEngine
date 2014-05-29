@@ -30,7 +30,7 @@ public class MouseMotionController implements MouseMotionListener {
 		CameraManager.getInstance().getCamera().setAngle_H(angle_H);
 		CameraManager.getInstance().getCamera().setAngle_V(angle_V);
 		
-		System.out.println(angle_H + " - " + angle_V);
+		//System.out.println(angle_H + " - " + angle_V);
 	}
 	
 	@Override

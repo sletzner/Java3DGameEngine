@@ -18,7 +18,7 @@ public class KeyboardController implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent paramKeyEvent) {
-		// System.out.println("Key ID : " + paramKeyEvent.getKeyCode());
+		//System.out.println("Key ID : " + paramKeyEvent.getKeyCode());
 
 		switch (paramKeyEvent.getKeyCode()) {
 		case 27:
@@ -37,12 +37,12 @@ public class KeyboardController implements KeyListener {
 		case 37:
 			// Gauche
 			CameraManager.getInstance().getCamera().setAngle_H(
-					CameraManager.getInstance().getCamera().getAngle_H() - GameConstants.VITESSE);
+					CameraManager.getInstance().getCamera().getAngle_H() - GameConstants.VITESSE_ROTATION);
 			break;
 		case 39:
 			// Droite
 			CameraManager.getInstance().getCamera().setAngle_H(
-					CameraManager.getInstance().getCamera().getAngle_H() + GameConstants.VITESSE);
+					CameraManager.getInstance().getCamera().getAngle_H() + GameConstants.VITESSE_ROTATION);
 			break;
 		case 107:
 			// Descend
@@ -51,6 +51,17 @@ public class KeyboardController implements KeyListener {
 		case 109:
 			// Monte
 			CameraManager.getInstance().updateAltitudeCameraEtJoueur(true);
+			break;
+		case 112:
+			// Activer mode VOL
+			if (CameraManager.getInstance().isModeVolActif()) {
+				CameraManager.getInstance().setModeVolActif(false);
+			} else {
+				CameraManager.getInstance().setModeVolActif(true);
+			}
+			
+			System.out.println("Activation mode VOL : " + CameraManager.getInstance().isModeVolActif());
+			
 			break;
 		}
 	}

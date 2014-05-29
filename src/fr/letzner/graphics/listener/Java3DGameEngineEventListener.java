@@ -3,6 +3,7 @@
  */
 package fr.letzner.graphics.listener;
 
+import static javax.media.opengl.GL.GL_CULL_FACE;
 import static javax.media.opengl.GL2.*;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
@@ -55,7 +56,7 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 		glu = new GLU(); 										// get GL Utilities
 		
 		// Camera position initiale
-		CameraManager.getInstance().getCamera().setEye_z(-20.0f);
+		//CameraManager.getInstance().getCamera().setEye_z(-20.0f);
 		
 		// Screen size
 		this.canvasWidth = gl.getContext().getGLDrawable().getWidth();
@@ -64,6 +65,7 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 		gl.glClearColor(0.2f, 0.0f, 1.0f, 0.0f); 				// set background (clear) color
 		gl.glClearDepth(1.0f); 									// set clear depth value to farthest
 		gl.glEnable(GL_DEPTH_TEST); 							// Active le test de profondeur
+		gl.glDisable(GL_CULL_FACE);
 		gl.glDepthFunc(GL_LEQUAL); 								// the type of depth test to do
 		gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); 	// best perspective correction
 		gl.glShadeModel(GL_SMOOTH); 							// blends colors nicely, and smoothes out lighting
@@ -128,7 +130,7 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 		ShapeManager.getInstance().getArbre().drawTrees(gl, textureManager.getTexturesArbres());
 		
 		// Generation du ciel
-		//ShapeManager.getInstance().getArbre().drawTrees(gl, textureManager.getTexturesArbres());
+		//ShapeManager.getInstance().getCiel().draw(gl, textureManager.getTextureCiel());
 	}
 
 	/**

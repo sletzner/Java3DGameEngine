@@ -11,7 +11,8 @@ public class GameConstants {
 	/**
 	 * Vitesse de défilement
 	 */
-	public static float VITESSE = 0.1f;
+	public static float VITESSE_MONTEE = 0.2f;
+	public static float VITESSE_ROTATION = 0.01f;
 	public static String TITLE = "Paysage 3D - Generator"; // window's title
 	public static int WINDOW_WIDTH = 800; // width of the drawable
 	public static int WINDOW_HEIGHT = 600; // height of the drawable
@@ -22,4 +23,5 @@ public class GameConstants {
 	public static String GRASS_TEXTURE_PATH = "/home/stefan/Dev/Ressources/Textures/Herbe-eparse-etirable.jpg";
 	public static String WATER_TEXTURE_PATH = "/home/stefan/Dev/Ressources/Textures/Eau-etirable.jpg";
 	public static float NIVEAU_EAU = 10.0f;
+	public static String SKY_TEXTURE_PATH = "/home/stefan/Dev/Ressources/Textures/Hemispherical/hemisphericalSky.jpg";
 }

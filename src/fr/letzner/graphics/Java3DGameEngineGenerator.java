@@ -19,6 +19,7 @@ import fr.letzner.graphics.listener.MouseController;
 import fr.letzner.graphics.listener.MouseMotionController;
 import fr.letzner.graphics.listener.Java3DGameEngineEventListener;
 import fr.letzner.graphics.shapes.Impl.Arbre;
+import fr.letzner.graphics.shapes.Impl.Ciel;
 import fr.letzner.graphics.shapes.Impl.Paysage;
 import fr.letzner.graphics.shapes.Impl.ShapeManager;
 import fr.letzner.graphics.utils.GameConstants;
@@ -28,7 +29,6 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 	
 	private static GLCanvas canvas = null;
 	private static GLU glu; // for the GL Utility
-	private static Point center = null;
 	private static GLProfile glp = null;
 	
 	
@@ -44,15 +44,12 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 				// Initialisation des models 3D
 				ShapeManager.getInstance().setPaysage(new Paysage(GameConstants.PAYSAGE_IMAGE_PATH));
 				ShapeManager.getInstance().setArbre(new Arbre(ShapeManager.getInstance().getPaysage().getTableauAltitudes()));
+				//ShapeManager.getInstance().setCiel(new Ciel());
 				
 				// Canvas de rendu de la scene
 				canvas = new Java3DGameEngineGenerator();
 				canvas.setPreferredSize(new Dimension(GameConstants.WINDOW_WIDTH,
 						GameConstants.WINDOW_HEIGHT));
-				
-				// Definit le centre
-				center = new Point();
-				center.setLocation(GameConstants.WINDOW_WIDTH / 2, GameConstants.WINDOW_HEIGHT / 2);
 				
 				try {
 					// Controlleurs
@@ -97,7 +94,6 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 	            //frame.setExtendedState(Frame.MAXIMIZED_BOTH);  // full screen mode
 				frame.setVisible(true);
 				Rectangle r = frame.getBounds();
-				center = new Point(r.x + r.width / 2, r.y + r.height / 2);
 				animator.start();
 			}
 		});

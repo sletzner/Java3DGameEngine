@@ -22,19 +22,19 @@ public class MouseController implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent paramMouseEvent) {
-		System.out.println("Released : " + paramMouseEvent.getX() + " - " + paramMouseEvent.getY());
+		//System.out.println("Released : " + paramMouseEvent.getX() + " - " + paramMouseEvent.getY());
 		
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent paramMouseEvent) {
-		System.out.println("Pressed : " + paramMouseEvent.getX() + " - " + paramMouseEvent.getY());
+		//System.out.println("Pressed : " + paramMouseEvent.getX() + " - " + paramMouseEvent.getY());
 		
 	}
 	
 	@Override
 	public void mouseExited(MouseEvent paramMouseEvent) {
-		System.out.println("Exited : " + paramMouseEvent.getX() + " - " + paramMouseEvent.getY());
+		//System.out.println("Exited : " + paramMouseEvent.getX() + " - " + paramMouseEvent.getY());
 		
 	}
 	
