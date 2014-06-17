@@ -153,13 +153,13 @@ public class Arbre extends AbstractModel3D {
 				
 				textures[indicesTypeArbres[i]].disable(gl);
 				
-				gl.glDisable(GL_TEXTURE_2D);
+				//gl.glDisable(GL_TEXTURE_2D);
 				gl.glDisable(GL_BLEND);
 			}
 		}
 	}
 
-	@Override
+	
 	public void draw(GL2 gl, Texture texture) {
 		// pas utilisé
 	}

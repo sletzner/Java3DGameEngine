@@ -80,7 +80,7 @@ public class CameraManager {
         			camera.getAt_x(), camera.getAt_y(), camera.getAt_z(), 			// Target 		-> LookAt
         			camera.getUp_x(), camera.getUp_y(), camera.getUp_z());			// Head position
 
-        //System.out.println(camera.toString());
+        System.out.println(camera.toString());
         
         // Change back to model view matrix.
         gl.glMatrixMode(GL2.GL_MODELVIEW);
@@ -111,8 +111,8 @@ public class CameraManager {
 		
 		if (avance) {
 			// Le joueur avance
-			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
-			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
+			x = PlayerManager.getInstance().getPlayer().getX() - ((float)Math.cos(camera.getAngle_H()) * GameConstants.VITESSE_ROTATION);
+			z = PlayerManager.getInstance().getPlayer().getZ() - ((float)Math.sin(camera.getAngle_H()) * GameConstants.VITESSE_ROTATION);
 			
 			if (this.isModeVolActif()) {
 				// Calcul de la hauteur uniquement si en mode VOL
@@ -123,8 +123,8 @@ public class CameraManager {
 			}
 		} else {
 			// Le joueur recule
-			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
-			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle_H()) + GameConstants.VITESSE_ROTATION);
+			x = PlayerManager.getInstance().getPlayer().getX() + ((float)Math.cos(camera.getAngle_H()) * GameConstants.VITESSE_ROTATION);
+			z = PlayerManager.getInstance().getPlayer().getZ() + ((float)Math.sin(camera.getAngle_H()) * GameConstants.VITESSE_ROTATION);
 			
 			if (this.isModeVolActif()) {
 				// Calcul de la hauteur uniquement si en mode VOL
@@ -145,6 +145,26 @@ public class CameraManager {
 		camera.setEye_z(z);
 	}
 	
+	public void updatePositionCameraEtJoueur() {
+		// Variables
+		float x = 0.0f;
+		float y = 0.0f;
+		float z = 0.0f;
+		
+		x = PlayerManager.getInstance().getPlayer().getX();
+		z = PlayerManager.getInstance().getPlayer().getZ();
+		y = getHauteurTerrain(x, z);
+		
+		// Mise a jour de la camera et du joueur
+		PlayerManager.getInstance().getPlayer().setX(x);
+		PlayerManager.getInstance().getPlayer().setY(y);
+		PlayerManager.getInstance().getPlayer().setZ(z);
+		
+		camera.setEye_x(x);
+		camera.setEye_y(y);
+		camera.setEye_z(z);
+	}
+	
 	/**
 	 * Calcul de la hauteur par rapport au terrain
 	 * @param x
@@ -152,10 +172,18 @@ public class CameraManager {
 	 * @return altitude
 	 */
 	private float getHauteurTerrain(float x, float z) {
+		float[][] altTab = ShapeManager.getInstance().getPaysage().getTableauAltitudes();
 		x = x + ShapeManager.getInstance().getPaysage().getDecalX();
+		if (x > (altTab.length - 1)) x = (altTab.length - 1);
+		if (x < 0) x = 0;
+		
 		z = z + ShapeManager.getInstance().getPaysage().getDecalZ();
+		if (z > (altTab[0].length - 1)) z = (altTab[0].length - 1);
+		if (z < 0) z = 0;
 		
 		float alt = ShapeManager.getInstance().getPaysage().getTableauAltitudes()[(int)(x)][(int)z] + 0.5f;
+		
+		if (alt < (GameConstants.NIVEAU_EAU + 1.0f)) alt = GameConstants.NIVEAU_EAU + 1.0f; 
 		
 		System.out.println("Altitude = " + alt);
 		

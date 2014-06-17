@@ -4,6 +4,8 @@
 package fr.letzner.graphics.listener;
 
 import static javax.media.opengl.GL.GL_CULL_FACE;
+import static javax.media.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
+import static javax.media.opengl.GL.GL_SRC_ALPHA;
 import static javax.media.opengl.GL2.*;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
@@ -107,6 +109,9 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
 		
+		// Textures
+		gl.glEnable(GL_TEXTURE_2D);
+		
 		CameraManager.getInstance().setCamera(gl, glu, canvasWidth, canvasHeight);
 		
 	    // Rendu du paysage
@@ -126,11 +131,13 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 				textureManager.getTextureSol(), 
 				textureManager.getTextureEau());
 		
+		// Generation du ciel
+		ShapeManager.getInstance().getCiel().draw(gl, textureManager.getTextureCiel());
+		
 		// Generation des arbres
 		ShapeManager.getInstance().getArbre().drawTrees(gl, textureManager.getTexturesArbres());
 		
-		// Generation du ciel
-		//ShapeManager.getInstance().getCiel().draw(gl, textureManager.getTextureCiel());
+		
 	}
 
 	/**

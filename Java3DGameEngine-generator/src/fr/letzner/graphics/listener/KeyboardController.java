@@ -60,6 +60,8 @@ public class KeyboardController implements KeyListener {
 				CameraManager.getInstance().setModeVolActif(true);
 			}
 			
+			CameraManager.getInstance().updatePositionCameraEtJoueur();
+			
 			System.out.println("Activation mode VOL : " + CameraManager.getInstance().isModeVolActif());
 			
 			break;

@@ -104,7 +104,7 @@ public class Paysage extends AbstractModel3D {
         gl.glVertex3f(-decalX * GameConstants.LARGEUR_CARRE, GameConstants.NIVEAU_EAU, decalZ * GameConstants.LARGEUR_CARRE);
 		
 		
-		textureSol.disable(gl);
+        textureEau.disable(gl);
 	}
 
 	private void genererPaysage(GL2 gl) {

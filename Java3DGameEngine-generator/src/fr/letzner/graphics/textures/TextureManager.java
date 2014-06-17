@@ -36,7 +36,7 @@ public class TextureManager {
 		
 		chargerTextureEau();
 		
-		//chargerTextureCiel();
+		chargerTextureCiel();
 	}
 
 	/**

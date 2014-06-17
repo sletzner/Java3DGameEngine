@@ -44,7 +44,7 @@ public class Java3DGameEngineGenerator extends GLCanvas {
 				// Initialisation des models 3D
 				ShapeManager.getInstance().setPaysage(new Paysage(GameConstants.PAYSAGE_IMAGE_PATH));
 				ShapeManager.getInstance().setArbre(new Arbre(ShapeManager.getInstance().getPaysage().getTableauAltitudes()));
-				//ShapeManager.getInstance().setCiel(new Ciel());
+				ShapeManager.getInstance().setCiel(new Ciel());
 				
 				// Canvas de rendu de la scene
 				canvas = new Java3DGameEngineGenerator();
