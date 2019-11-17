@@ -2,21 +2,38 @@
  * 
  */
 package fr.letzner.graphics.shapes.Impl;
-
-import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
-
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.glu.GLUquadric;
 import com.jogamp.opengl.util.gl2.GLUT;
 import com.jogamp.opengl.util.texture.Texture;
 
-import fr.letzner.graphics.shapes.AbstractModel3D;
-import static javax.media.opengl.GL.GL_BLEND;
-import static javax.media.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
-import static javax.media.opengl.GL.GL_SRC_ALPHA;
-import static javax.media.opengl.GL2.*;
-import static javax.media.opengl.GL2GL3.*;
+import static com.jogamp.opengl.GL.GL_BLEND;
+import static com.jogamp.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
+import static com.jogamp.opengl.GL.GL_SRC_ALPHA;
+import static com.jogamp.opengl.GL2.*;
+import static com.jogamp.opengl.GL2GL3.*;
 
+/*
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.glu.GLUquadric;
+
+ */
+
+
+
+import fr.letzner.graphics.shapes.AbstractModel3D;
+
+/*
+import static com.jogamp.opengl.GL.GL_BLEND;
+import static com.jogamp.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
+import static com.jogamp.opengl.GL.GL_SRC_ALPHA;
+import static com.jogamp.opengl.GL2.*;
+import static com.jogamp.opengl.GL2GL3.*;
+*/
+
+ 
 /**
  * @author stefan
  *

@@ -1,12 +1,11 @@
 package fr.letzner.graphics.listener;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.media.opengl.GL2;
-
+import com.jogamp.opengl.GL2;
 import fr.letzner.graphics.engine.CameraManager;
 import fr.letzner.graphics.utils.GameConstants;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class KeyboardController implements KeyListener {
 

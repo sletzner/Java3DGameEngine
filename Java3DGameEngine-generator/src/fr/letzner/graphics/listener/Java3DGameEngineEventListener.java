@@ -3,32 +3,22 @@
  */
 package fr.letzner.graphics.listener;
 
-import static javax.media.opengl.GL.GL_CULL_FACE;
-import static javax.media.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
-import static javax.media.opengl.GL.GL_SRC_ALPHA;
-import static javax.media.opengl.GL2.*;
-import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
-import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
-import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
-
-import java.awt.Point;
-import java.nio.IntBuffer;
-
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLProfile;
-import javax.media.opengl.glu.GLU;
-
 import com.jogamp.opengl.util.texture.Texture;
-
-import fr.letzner.graphics.engine.AmbianceManager;
 import fr.letzner.graphics.engine.CameraManager;
 import fr.letzner.graphics.shapes.Impl.ShapeManager;
 import fr.letzner.graphics.textures.TextureManager;
 import fr.letzner.graphics.utils.ColorManager;
+
+import com.jogamp.opengl.*;
+import com.jogamp.opengl.glu.GLU;
+import java.awt.*;
+
+import static com.jogamp.opengl.GL.GL_CULL_FACE;
+import static com.jogamp.opengl.GL2.*;
+import static com.jogamp.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
+import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
+import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
+import static com.jogamp.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 /**
  * @author stefan
@@ -61,8 +51,8 @@ public class Java3DGameEngineEventListener implements GLEventListener {
 		//CameraManager.getInstance().getCamera().setEye_z(-20.0f);
 		
 		// Screen size
-		this.canvasWidth = gl.getContext().getGLDrawable().getWidth();
-		this.canvasHeight = gl.getContext().getGLDrawable().getHeight();
+		this.canvasWidth = gl.getContext().getGLDrawable().getSurfaceWidth();
+		this.canvasHeight = gl.getContext().getGLDrawable().getSurfaceHeight();
 		
 		gl.glClearColor(0.2f, 0.0f, 1.0f, 0.0f); 				// set background (clear) color
 		gl.glClearDepth(1.0f); 									// set clear depth value to farthest

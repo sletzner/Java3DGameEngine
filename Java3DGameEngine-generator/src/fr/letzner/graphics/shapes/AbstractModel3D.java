@@ -3,7 +3,7 @@
  */
 package fr.letzner.graphics.shapes;
 
-import javax.media.opengl.GL2;
+import com.jogamp.opengl.GL2;
 
 import com.jogamp.opengl.util.texture.Texture;
 

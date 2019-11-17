@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
-import javax.media.opengl.GLException;
-import javax.media.opengl.GLProfile;
+import com.jogamp.opengl.GLException;
+import com.jogamp.opengl.GLProfile;
 
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;

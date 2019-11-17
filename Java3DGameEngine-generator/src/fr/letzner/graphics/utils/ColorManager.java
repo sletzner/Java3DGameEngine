@@ -3,8 +3,8 @@
  */
 package fr.letzner.graphics.utils;
 
-import javax.media.opengl.GL2;
-import static javax.media.opengl.GL.GL_LINES;
+import com.jogamp.opengl.GL2;
+import static com.jogamp.opengl.GL.GL_LINES;
 
 /**
  * @author stefan

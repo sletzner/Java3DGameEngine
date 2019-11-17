@@ -3,14 +3,9 @@
  */
 package fr.letzner.graphics.engine;
 
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_DIFFUSE;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHT0;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHTING;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SPECULAR;
+import com.jogamp.opengl.GL2;
 
-import javax.media.opengl.GL2;
+import static com.jogamp.opengl.fixedfunc.GLLightingFunc.*;
 
 /**
  * @author stefan

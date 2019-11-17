@@ -3,17 +3,17 @@
  */
 package fr.letzner.graphics.shapes.Impl;
 
-import static javax.media.opengl.GL2.GL_LINEAR;
-import static javax.media.opengl.GL2.GL_REPEAT;
-import static javax.media.opengl.GL2.GL_TEXTURE_2D;
-import static javax.media.opengl.GL2.GL_TEXTURE_MAG_FILTER;
-import static javax.media.opengl.GL2.GL_TEXTURE_MIN_FILTER;
-import static javax.media.opengl.GL2.GL_TEXTURE_WRAP_S;
-import static javax.media.opengl.GL2.GL_TEXTURE_WRAP_T;
-import static javax.media.opengl.GL2.GL_TRIANGLES;
-import static javax.media.opengl.GL2GL3.GL_QUADS;
+import static com.jogamp.opengl.GL2.GL_LINEAR;
+import static com.jogamp.opengl.GL2.GL_REPEAT;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_2D;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_MAG_FILTER;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_MIN_FILTER;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_WRAP_S;
+import static com.jogamp.opengl.GL2.GL_TEXTURE_WRAP_T;
+import static com.jogamp.opengl.GL2.GL_TRIANGLES;
+import static com.jogamp.opengl.GL2GL3.GL_QUADS;
 
-import javax.media.opengl.GL2;
+import com.jogamp.opengl.GL2;
 
 import com.jogamp.opengl.util.texture.Texture;
 

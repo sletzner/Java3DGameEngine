@@ -3,24 +3,18 @@
  */
 package fr.letzner.graphics.shapes.Impl;
 
-import static javax.media.opengl.GL.GL_BLEND;
-import static javax.media.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
-import static javax.media.opengl.GL.GL_SRC_ALPHA;
-import static javax.media.opengl.GL.GL_TEXTURE_2D;
-import static javax.media.opengl.GL.GL_TRIANGLES;
-import static javax.media.opengl.GL2GL3.GL_QUADS;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.texture.Texture;
+import fr.letzner.graphics.shapes.AbstractModel3D;
+import fr.letzner.graphics.utils.GameConstants;
+import fr.letzner.graphics.utils.RandomCoordonnees;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.media.opengl.GL2;
-
-import com.jogamp.opengl.util.texture.Texture;
-
-import fr.letzner.graphics.shapes.AbstractModel3D;
-import fr.letzner.graphics.utils.GameConstants;
-import fr.letzner.graphics.utils.RandomCoordonnees;
+import static com.jogamp.opengl.GL.*;
+import static com.jogamp.opengl.GL2GL3.GL_QUADS;
 // GL2 constants
 
 /**

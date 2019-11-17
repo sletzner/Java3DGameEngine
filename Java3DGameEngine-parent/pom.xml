@@ -3,10 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.letzner.graphics</groupId>
 	<artifactId>Java3DGameEngine-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-
+	<properties>
+		<jogl-version>2.3.1</jogl-version>
+	</properties>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -47,7 +49,7 @@
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
-										<Main-Class>fr.letzner.graphics.Java3DGameEngine</Main-Class>
+										<Main-Class>fr.letzner.graphics.Java3DGameEngineGenerator</Main-Class>
 										<Build-Number>${project.version}</Build-Number>
 									</manifestEntries>
 								</transformer>
@@ -64,22 +66,17 @@
 			<dependency>
 				<groupId>org.jogamp.gluegen</groupId>
 				<artifactId>gluegen-rt-main</artifactId>
-				<version>2.0.2</version>
+				<version>${jogl-version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jogamp.jogl</groupId>
 				<artifactId>jogl-all-main</artifactId>
-				<version>2.0.2</version>
+				<version>${jogl-version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jogamp.jocl</groupId>
-				<artifactId>jocl-main</artifactId>
-				<version>2.0.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.jogamp.joal</groupId>
-				<artifactId>joal-main</artifactId>
-				<version>2.0.2</version>
+				<groupId>org.jogamp.jogl</groupId>
+				<artifactId>jogl-all</artifactId>
+				<version>${jogl-version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.swt.org.eclipse.swt.gtk.linux.x86.4.3.swt</groupId>
